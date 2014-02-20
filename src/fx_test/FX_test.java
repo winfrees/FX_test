@@ -6,6 +6,8 @@
 
 package fx_test;
 
+import java.util.ArrayList;
+import java.util.Vector;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,7 +20,9 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.MenuItemBuilder;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -34,10 +38,25 @@ import javafx.stage.WindowEvent;
  */
 public class FX_test extends Application {
     
+    ArrayList PreProcessing = new ArrayList(); 
+    
+    AnchorPane root; 
+    Scene scene;
+     Stage primaryStage;
+            
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage stage) {
         
+        this.primaryStage = stage;
         
+        this.root = new AnchorPane();
+        
+        this.root.setMaxWidth(640);
+        this.root.setMaxHeight(500);
+       
+        this.root.setPadding(Insets.EMPTY);
+        
+        this.scene = new Scene(root, 640, 500);
         
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
@@ -61,69 +80,188 @@ public class FX_test extends Application {
         
         mb.getMenus().addAll(menu1, menu2, menu3);
         
-        final ContextMenu contextMenu = new ContextMenu();
-contextMenu.setOnShowing(new EventHandler<WindowEvent>() {
+        final ContextMenu contextMenuProcess = new ContextMenu();
+contextMenuProcess.setOnShowing(new EventHandler<WindowEvent>() {
     public void handle(WindowEvent e) {
         System.out.println("showing");
     }
 });
-contextMenu.setOnShown(new EventHandler<WindowEvent>() {
+contextMenuProcess.setOnShown(new EventHandler<WindowEvent>() {
     public void handle(WindowEvent e) {
         System.out.println("shown");
     }
 });
 
-MenuItem item1 = new MenuItem("About");
+MenuItem item1 = new MenuItem("Load Image...");
+item1.setOnAction(new EventHandler<ActionEvent>() {
+    public void handle(ActionEvent e) {
+        System.out.println("Load Image");
+    }
+});
+SeparatorMenuItem seperator = new SeparatorMenuItem();
+SeparatorMenuItem seperator1 = new SeparatorMenuItem();
+
+MenuItem item2 = new MenuItem("Load Pipeline...");
+item2.setOnAction(new EventHandler<ActionEvent>() {
+    public void handle(ActionEvent e) {
+        System.out.println("load Preprocessing pipeline");
+    }
+});
+
+MenuItem item3 = new MenuItem("Save Pipeline...");
+item2.setOnAction(new EventHandler<ActionEvent>() {
+    public void handle(ActionEvent e) {
+        System.out.println("Save Preprocessing pipeline");
+    }
+});
+        
+  
+
+MenuItem item4 = new MenuItem("Add");
+item2.setOnAction(new EventHandler<ActionEvent>() {
+    public void handle(ActionEvent e) {
+        System.out.println("Add Preprocessing Block");
+        Rectangle process1 = new Rectangle(10, 75, 180, 50);
+        process1.setFill(Color.BLUE);
+        process1.setStroke(Color.BLACK);
+        
+        root.getChildren().add(process1);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        
+        
+        
+    }
+});
+MenuItem item5 = new MenuItem("Remove");
+item2.setOnAction(new EventHandler<ActionEvent>() {
+    public void handle(ActionEvent e) {
+        System.out.println("Remove Preprocessing Block");
+    }
+});
+contextMenuProcess.getItems().addAll(item1, seperator, item2, item3, seperator1, item4, item5);
+
+final ContextMenu contextMenuObject = new ContextMenu();
+contextMenuObject.setOnShowing(new EventHandler<WindowEvent>() {
+    public void handle(WindowEvent e) {
+        System.out.println("showing");
+    }
+});
+contextMenuObject.setOnShown(new EventHandler<WindowEvent>() {
+    public void handle(WindowEvent e) {
+        System.out.println("shown");
+    }
+});
+MenuItem item1_0 = new MenuItem("Load Pipeline...");
+item1.setOnAction(new EventHandler<ActionEvent>() {
+    public void handle(ActionEvent e) {
+        System.out.println("Load previously defined pipeline");
+    }
+});
+
+MenuItem item1_1 = new MenuItem("Save Pipeline...");
+item1.setOnAction(new EventHandler<ActionEvent>() {
+    public void handle(ActionEvent e) {
+        System.out.println("Load previously defined pipeline");
+    }
+});
+
+MenuItem item1_2 = new MenuItem("Add");
+item1.setOnAction(new EventHandler<ActionEvent>() {
+    public void handle(ActionEvent e) {
+        System.out.println("Add object classification block");
+    }
+});
+MenuItem item1_3 = new MenuItem("Remove");
+item2.setOnAction(new EventHandler<ActionEvent>() {
+    public void handle(ActionEvent e) {
+        System.out.println("Remove object classification block");
+    }
+});
+contextMenuObject.getItems().addAll(item1_0, item1_1,seperator, item1_2, item1_3);
+
+    final ContextMenu contextMenuExplore = new ContextMenu();
+contextMenuExplore.setOnShowing(new EventHandler<WindowEvent>() {
+    public void handle(WindowEvent e) {
+        System.out.println("showing");
+    }
+});
+contextMenuExplore.setOnShown(new EventHandler<WindowEvent>() {
+    public void handle(WindowEvent e) {
+        System.out.println("shown");
+    }
+});
+
+MenuItem item2_1 = new MenuItem("Add");
 item1.setOnAction(new EventHandler<ActionEvent>() {
     public void handle(ActionEvent e) {
         System.out.println("About");
     }
 });
-MenuItem item2 = new MenuItem("Preferences");
+MenuItem item2_2 = new MenuItem("Remove");
 item2.setOnAction(new EventHandler<ActionEvent>() {
     public void handle(ActionEvent e) {
         System.out.println("Preferences");
     }
 });
-contextMenu.getItems().addAll(item1, item2);
+contextMenuExplore.getItems().addAll(item2_1, item2_2);
 
+
+      
         
-        AnchorPane root = new AnchorPane();
-        
-        root.setMaxWidth(640);
-        root.setMaxHeight(500);
-       
-        root.setPadding(Insets.EMPTY);
+
         Rectangle rect_back = new Rectangle(0, 26, 640, 500);
         rect_back.setFill(Color.web("#404040"));
         
-        Pane paneProcessing = new Pane();
-        paneProcessing.setLayoutX(d);
-        pane
+//        Pane paneProcessing = new Pane();
+//        paneProcessing.setLayoutX(0);
+//        paneProcessing.setLayoutY(26);
+//        //paneProcessing.
         
         
-        Rectangle rect_process = new Rectangle(10, 65, 200, 430);
+        final Rectangle rect_process = new Rectangle(10, 65, 200, 430);
         rect_process.setFill(Color.DARKGRAY);
         rect_process.setStroke(Color.BLACK);
-        
-        
-        Rectangle rect_object = new Rectangle(220, 65, 200, 430);
+        final Rectangle rect_object = new Rectangle(220, 65, 200, 430);
         rect_object.setFill(Color.DARKGRAY);
         rect_object.setStroke(Color.BLACK);
-        Rectangle rect_explore = new Rectangle(430, 65, 200, 430);
+        final Rectangle rect_explore = new Rectangle(430, 65, 200, 430);
         rect_explore.setFill(Color.DARKGRAY);
         rect_explore.setStroke(Color.BLACK);
         
-        rect_process.setContextMenu(ContextMenuBuilder.create().items(MenuItemBuilder.create().text("menu").build()).build());
+        //rect_process.setContextMenu(ContextMenuBuilder.create().items(MenuItemBuilder.create().text("menu").build()).build());
         
-        rect_process.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>(){
+        rect_process.addEventHandler(MouseEvent.MOUSE_CLICKED,
+    new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+            if (e.getButton() == MouseButton.SECONDARY)  
+                contextMenuProcess.show(rect_process, e.getScreenX(), e.getScreenY());
+        }
+});
+        rect_object.addEventHandler(MouseEvent.MOUSE_CLICKED,
+    new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+            if (e.getButton() == MouseButton.SECONDARY)  
+                contextMenuObject.show(rect_object, e.getScreenX(), e.getScreenY());
+        }
+});
+        rect_explore.addEventHandler(MouseEvent.MOUSE_CLICKED,
+    new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+            if (e.getButton() == MouseButton.SECONDARY)  
+                contextMenuExplore.show(rect_explore, e.getScreenX(), e.getScreenY());
+        }
+});
 
-        @Override
-            public void handle(ContextMenuEvent event) {
-                System.out.println("Process Panel Menu Request!");
-               
-            }
-        });
+        
+//        rect_process.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>(){
+//
+//        @Override
+//            public void handle(ContextMenuEvent event) {
+//                System.out.println("Process Panel Menu Request!");
+//               
+//            }
+//        });
         rect_process.setOnMousePressed(new EventHandler<MouseEvent>(){
 
         @Override
@@ -149,7 +287,7 @@ contextMenu.getItems().addAll(item1, item2);
         
         
         root.getChildren().add(mb);
-        root.getChildren().add(rect_pane);
+        root.getChildren().add(rect_back);
         root.getChildren().add(rect_process);
         root.getChildren().add(rect_object);
         root.getChildren().add(rect_explore);
@@ -158,10 +296,10 @@ contextMenu.getItems().addAll(item1, item2);
         
     
         
-        Scene scene = new Scene(root, 640, 500);
+      
         
         
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Volumetric Tissue Cytometry GUI testing");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
